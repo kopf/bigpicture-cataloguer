@@ -48,6 +48,11 @@ def clean_caption_text(div):
     """Removes links from captions, "(x photos total)" messages, etc
     """
     segments = []
+    regex = re.compile(r"#photo(\d*)")
+    for link in div.findAll('a'):
+        # first, remove all meaningless links
+        if regex.match(link['href']):
+            link.extract()
     for content in div.contents:
         if isinstance(content, basestring):
             segments.append(content)
