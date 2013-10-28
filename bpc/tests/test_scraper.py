@@ -18,3 +18,14 @@ class TestScraper(unittest.TestCase):
                 'http://www.boston.com/bigpicture/2008/05/uncontacted_tribe_photographed.html'
         }
         self.assertEqual(expected, get_albums(2008, 8))
+
+    @patch.object(bpc.http, 'get', return_value=FIXTURES['2008-09.html'])
+    def test_get_albums_new_site(self, mocked_get):
+        """Should return a dictionary when parsing newer (after sep 2008) months"""
+        expected = {
+            'The Singapore Grand Prix':
+                'http://www.boston.com/bigpicture/2008/09/the_singapore_grand_prix.html',
+            'Childhood Cancer Awareness Month':
+                'http://www.boston.com/bigpicture/2008/09/childhood_cancer_awareness_mon.html'
+        }
+        self.assertEqual(expected, get_albums(2008, 9))
