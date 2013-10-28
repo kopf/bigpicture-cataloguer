@@ -46,5 +46,18 @@ class TestScraper(unittest.TestCase):
             {'caption': u"The surface of Saturn's moon Dione, up close. Courtesy NASA/JPL-Caltech",
              'url': u'http://cache.boston.com/universal/site_graphics/blogs/bigpicture/saturn_05_30/cassini3.jpg'},
         ]
-        print list_album_photos('bla')
+        self.assertEqual(expected, list_album_photos('bla'))
+
+    @patch.object(bpc.http, 'get',
+        return_value=FIXTURES['round_trip_with_endeavour.html'])
+    def test_list_newer_album_photos(self, mocked_get):
+        """Should return a list of photos when given a recent photo album url"""
+        expected = [
+            {'caption': 'intro || photo 1 caption',
+             'url': u'pic1.jpg'},
+            {'caption': u"photo 2 caption",
+             'url': u'pic2.jpg'},
+            {'caption': u"photo 3 caption",
+             'url': u'pic3.jpg'},
+        ]
         self.assertEqual(expected, list_album_photos('bla'))
