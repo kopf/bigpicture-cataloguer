@@ -8,6 +8,7 @@ from bpc.tests.tests import FIXTURES
 
 
 class TestScraper(unittest.TestCase):
+
     @patch.object(bpc.http, 'get', return_value=FIXTURES['2008-05.html'])
     def test_list_albums_old_site(self, mocked_get):
         """Should return a dictionary when parsing old (before sep 2008) months"""
