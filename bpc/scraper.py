@@ -28,41 +28,6 @@ def list_albums(year, month):
     return retval
 
 
-def get_album_intro_text(soup):
-    """Returns an album's intro text
-    """
-    return clean_caption_text(soup.find('div', {'class': 'bpBody'}))
-
-
-def make_image_dict(div):
-    """Returns a dict in the form {'url': url, 'caption': '...'} for an
-    image div
-    """
-    return {
-        'url': div.find('img')['src'],
-        'caption': clean_caption_text(div.find('div', {'class': 'bpCaption'}))
-    }
-
-
-def clean_caption_text(div):
-    """Removes links from captions, "(x photos total)" messages, etc
-    """
-    segments = []
-    regex = re.compile(r"#photo(\d*)")
-    for link in div.findAll('a'):
-        # first, remove all meaningless links
-        if regex.match(link['href']):
-            link.extract()
-    for content in div.contents:
-        if isinstance(content, basestring):
-            segments.append(content)
-        else:
-            segments.append(content.text)
-    retval = u''.join(segments)
-    retval = re.sub(r'\(\d\d photos total\)', '', retval)
-    return retval.strip()
-
-
 def list_album_photos(url):
     """Returns a list of dictionaries representing images in
     the form [{'url': url, 'caption': caption}, ...]
@@ -83,3 +48,36 @@ def list_album_photos(url):
     for div in divs:
         retval.append(make_image_dict(div))
     return retval
+
+
+def get_album_intro_text(soup):
+    """Returns an album's intro text"""
+    return clean_caption_text(soup.find('div', {'class': 'bpBody'}))
+
+
+def make_image_dict(div):
+    """Returns a dict in the form {'url': url, 'caption': '...'} for an
+    image div
+    """
+    return {
+        'url': div.find('img')['src'],
+        'caption': clean_caption_text(div.find('div', {'class': 'bpCaption'}))
+    }
+
+
+def clean_caption_text(div):
+    """Removes links from captions, "(x photos total)" messages, etc"""
+    segments = []
+    regex = re.compile(r"#photo(\d*)")
+    for link in div.findAll('a'):
+        # first, remove all meaningless links
+        if regex.match(link['href']):
+            link.extract()
+    for content in div.contents:
+        if isinstance(content, basestring):
+            segments.append(content)
+        else:
+            segments.append(content.text)
+    retval = u''.join(segments)
+    retval = re.sub(r'\(\d\d photos total\)', '', retval)
+    return retval.strip()
