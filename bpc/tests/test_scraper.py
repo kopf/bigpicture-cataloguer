@@ -4,10 +4,10 @@ from mock import patch
 
 from bpc.scraper import list_albums, list_album_photos
 import bpc.http
-from bpc.tests.tests import FIXTURES
+from bpc.tests.tests import FIXTURES, BaseTestCase
 
 
-class TestScraper(unittest.TestCase):
+class TestScraper(BaseTestCase):
 
     @patch.object(bpc.http, 'get', return_value=FIXTURES['2008-05.html'])
     def test_list_albums_old_site(self, mocked_get):

@@ -5,6 +5,7 @@ from mock import patch
 import requests
 
 import bpc.http as http
+from bpc.tests.tests import BaseTestCase
 
 
 class MockedResponse(requests.Response):
@@ -15,7 +16,7 @@ class MockedResponse(requests.Response):
         self._content = content
 
 
-class TestHTTPLib(unittest.TestCase):
+class TestHTTPLib(BaseTestCase):
 
     @patch.object(requests, 'get', side_effect=Exception())
     def test_retry_on_requests_exception(self, mocked_requests):
