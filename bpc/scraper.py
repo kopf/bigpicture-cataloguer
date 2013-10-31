@@ -19,7 +19,8 @@ def list_albums(year, month):
     if not divs:
         # old version of the site
         table = soup.findAll('table')[1]
-        links = [a for a in soup.findAll('table')[1].findAll('a') if a.text and a.text != 'comments']
+        links = [a for a in soup.findAll('table')[1].findAll('a') \
+                 if a.text and a.text != 'comments']
         for link in links:
             retval[link.text] = link['href']
     else:
