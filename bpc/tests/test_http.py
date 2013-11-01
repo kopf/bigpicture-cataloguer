@@ -1,5 +1,4 @@
 import sys
-import unittest
 
 from mock import patch
 import requests

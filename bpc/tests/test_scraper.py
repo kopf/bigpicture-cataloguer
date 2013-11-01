@@ -1,5 +1,3 @@
-import unittest
-
 from mock import patch
 
 from bpc.scraper import list_albums, list_album_photos
