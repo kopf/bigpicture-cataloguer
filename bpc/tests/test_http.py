@@ -4,15 +4,7 @@ from mock import patch
 import requests
 
 import bpc.http as http
-from bpc.tests.tests import BaseTestCase
-
-
-class MockedResponse(requests.Response):
-
-    def __init__(self, status_code=200, content=''):
-        super(MockedResponse, self).__init__()
-        self.status_code = status_code
-        self._content = content
+from bpc.tests.tests import BaseTestCase, MockedResponse
 
 
 class TestHTTPLib(BaseTestCase):
@@ -35,12 +27,13 @@ class TestHTTPLib(BaseTestCase):
     def test_get_decrements_retries_left(self, mocked_requests):
         """Should decrement the number of retries left when retrying"""
         with patch.object(http, 'get') as get_mock:
-            http.retry_or_fail('http://localhost', retries_left=4)
+            http.retry_or_fail('http://localhost', retries_left=4, stream=False)
             self.assertTrue(get_mock.called)
-            get_mock.assert_called_with('http://localhost', retries_left=3)
+            get_mock.assert_called_with(
+                'http://localhost', retries_left=3, stream=False)
 
     def test_exit_when_retries_exceeded(self):
         """Should exit when the retries limit has been reached"""
         with patch.object(sys, 'exit') as exit_mock:
-            http.retry_or_fail('http://localhost', retries_left=0)
+            http.retry_or_fail('http://localhost', retries_left=0, stream=False)
             self.assertTrue(exit_mock.called)

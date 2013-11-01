@@ -2,12 +2,12 @@ from mock import patch
 
 from bpc.scraper import list_albums, list_album_photos
 import bpc.http
-from bpc.tests.tests import FIXTURES, BaseTestCase
+from bpc.tests.tests import FIXTURES, BaseTestCase, MockedResponse
 
 
 class TestScraper(BaseTestCase):
 
-    @patch.object(bpc.http, 'get', return_value=FIXTURES['2008-05.html'])
+    @patch.object(bpc.http, 'get', return_value=MockedResponse(content=FIXTURES['2008-05.html']))
     def test_list_albums_old_site(self, mocked_get):
         """Should return a dictionary when parsing old (before sep 2008) months"""
         expected = {
@@ -18,7 +18,7 @@ class TestScraper(BaseTestCase):
         }
         self.assertEqual(expected, list_albums(2008, 8))
 
-    @patch.object(bpc.http, 'get', return_value=FIXTURES['2008-09.html'])
+    @patch.object(bpc.http, 'get', return_value=MockedResponse(content=FIXTURES['2008-09.html']))
     def test_list_albums_new_site(self, mocked_get):
         """Should return a dictionary when parsing newer (after sep 2008) months"""
         expected = {
@@ -30,7 +30,7 @@ class TestScraper(BaseTestCase):
         self.assertEqual(expected, list_albums(2008, 9))
 
     @patch.object(bpc.http, 'get',
-        return_value=FIXTURES['cassini_nears_fouryear_mark.html'])
+        return_value=MockedResponse(content=FIXTURES['cassini_nears_fouryear_mark.html']))
     def test_list_album_photos(self, mocked_get):
         """Should return a list of photos when given a photo album url"""
         expected = [
@@ -48,7 +48,7 @@ class TestScraper(BaseTestCase):
         self.assertEqual(expected, list_album_photos('bla'))
 
     @patch.object(bpc.http, 'get',
-        return_value=FIXTURES['round_trip_with_endeavour.html'])
+        return_value=MockedResponse(content=FIXTURES['round_trip_with_endeavour.html']))
     def test_list_newer_album_photos(self, mocked_get):
         """Should return a list of photos when given a recent photo album url"""
         expected = [

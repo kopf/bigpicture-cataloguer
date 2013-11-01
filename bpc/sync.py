@@ -1,5 +1,8 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 import os
+
+from dateutil.relativedelta import relativedelta
+
 
 # The Big Picture series began on this date:
 START = datetime(2008, 05, 1)
@@ -12,7 +15,7 @@ def get_months(path):
     month_iterator = get_start_date(path)
     while month_iterator.year != now.year and month_iterator.month != now.month:
         retval.append(month_iterator)
-        month_iterator += timdelta(months=1)
+        month_iterator += relativedelta(months=1)
     return retval
 
 

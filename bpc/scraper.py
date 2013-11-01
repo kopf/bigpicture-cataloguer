@@ -5,14 +5,14 @@ from BeautifulSoup import BeautifulSoup
 import bpc.http as http
 
 
-ALBUMS = 'http://www.boston.com/bigpicture/{year}/{{month:02d}}/'
+ALBUMS = 'http://www.boston.com/bigpicture/{year}/{month:02d}/'
 
 
 def list_albums(year, month):
     """Returns a dictionary of the form {title: url} for
     photo albums for a given month
     """
-    html = http.get(ALBUMS.format(year=year, month=month))
+    html = http.get(ALBUMS.format(year=year, month=month)).text
     soup = BeautifulSoup(html)
     divs = soup.findAll('div', {'class': 'headDiv2'})
     retval = {}
@@ -33,7 +33,7 @@ def list_album_photos(url):
     """Returns a list of dictionaries representing images in
     the form [{'url': url, 'caption': caption}, ...]
     """
-    html = http.get(url)
+    html = http.get(url).text
     soup = BeautifulSoup(html)
 
     # Process top image, prepending album intro text to caption
