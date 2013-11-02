@@ -43,7 +43,7 @@ if __name__ == '__main__':
     months = get_months(sys.argv[-1])
     for dt in months:
         albums = list_albums(dt.year, dt.month)
-        for album_name, url in albums.iteritems():
+        for album in albums:
             album_path = os.path.join(sys.argv[-1], str(dt.year),
-                                      '{0:02d}'.format(dt.month), album_name)
-            download_album(album_name, album_path, url)
+                                      '{0:02d}'.format(dt.month), album['name'])
+            download_album(album['name'], album_path, album['url'])
