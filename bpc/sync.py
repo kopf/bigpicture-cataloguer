@@ -27,7 +27,7 @@ def get_start_date(path):
     if not years:
         return START
     most_recent_year = get_latest(years) or START.year
-    months = os.listdir(os.path.join(path, most_recent_year))
+    months = os.listdir(os.path.join(path, str(most_recent_year)))
     most_recent_month = get_latest(months) or 1
     return datetime(most_recent_year, most_recent_month, 1)
 

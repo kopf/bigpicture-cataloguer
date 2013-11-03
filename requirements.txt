@@ -2,4 +2,4 @@ requests
 logbook
 BeautifulSoup>3.2
 pyexiv2
-dateutil
+python-dateutil

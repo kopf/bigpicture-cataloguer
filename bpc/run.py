@@ -5,6 +5,7 @@ import shutil
 import sys
 
 import logbook
+import pyexiv2
 
 import bpc.http as http
 from bpc.scraper import list_albums, list_album_photos
@@ -13,12 +14,11 @@ from bpc.sync import get_months
 
 log = logbook.Logger('bpc.run')
 
-#def write_caption(path, caption):
-#    import pyexiv2
-#    metadata = pyexiv2.ImageMetadata(path)
-#    metadata.read()
-#    metadata['Iptc.Application2.Caption'] = [caption]
-#    metadata.write()
+def write_caption(path, caption):
+    metadata = pyexiv2.ImageMetadata(path)
+    metadata.read()
+    metadata['Iptc.Application2.Caption'] = [caption]
+    metadata.write()
 
 
 def download_album(name, path, url):
@@ -35,6 +35,8 @@ def download_album(name, path, url):
             response = http.get(photo['url'], stream=True)
             with open(file_path, 'wb') as f:
                 shutil.copyfileobj(response.raw, f)
+            if not file_path.endswith('.gif'):
+                write_caption(file_path, photo['caption'])
     else:
         log.info('Photo album "{0}" already downloaded, skipping...'.format(name))
 
