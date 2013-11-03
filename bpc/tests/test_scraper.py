@@ -69,6 +69,13 @@ class TestScraper(BaseTestCase):
         # e.g. http://www.boston.com/bigpicture/2008/10/a_quick_note_1.html
         self.assertEqual([], list_album_photos('bla'))
 
+    @patch.object(bpc.http, 'get',
+        return_value=MockedResponse(content=FIXTURES['youtube.html']))
+    def test_list_album_photos_containing_youtube(self, mocked_get):
+        """Should return a list of photos when the album contains an embedded youtube"""
+        # e.g. http://www.boston.com/bigpicture/2008/10/nachtweys_wish_awareness_of_xd.html
+        self.assertEqual(1, len(list_album_photos('bla')))
+
     def test_clean_caption_text(self):
         """Should clean up caption text"""
         caption = BeautifulSoup(u'  \xb4test \xd7\xb4\xa0&rsquo;an\xf2ther quote&rsquo; &copy;'

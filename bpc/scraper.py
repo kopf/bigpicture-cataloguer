@@ -50,7 +50,9 @@ def list_album_photos(url):
     # Process rest of images
     divs = soup.findAll('div', {'class': 'bpBoth'})
     for div in divs:
-        retval.append(make_image_dict(div))
+        image = make_image_dict(div)
+        if image:
+            retval.append(image)
     return retval
 
 
@@ -63,9 +65,13 @@ def make_image_dict(div):
     """Returns a dict in the form {'url': url, 'caption': '...'} for an
     image div
     """
+    image = div.find('img')
+    if not image:
+        return {}
+    caption = div.find('div', {'class': 'bpCaption'}) or ''
     return {
-        'url': div.find('img')['src'],
-        'caption': clean_caption_text(div.find('div', {'class': 'bpCaption'}))
+        'url': image['src'],
+        'caption': clean_caption_text(caption)
     }
 
 
