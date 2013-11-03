@@ -13,8 +13,9 @@ def get_months(path):
     now = datetime.now()
     retval = []
     month_iterator = get_start_date(path)
-    while month_iterator.year != now.year and month_iterator.month != now.month:
-        retval.append(month_iterator)
+    while not (month_iterator.year == now.year and month_iterator.month == now.month):
+        if month_iterator >= START:
+            retval.append(month_iterator)
         month_iterator += relativedelta(months=1)
     return retval
 
@@ -27,7 +28,10 @@ def get_start_date(path):
     if not years:
         return START
     most_recent_year = get_latest(years) or START.year
-    months = os.listdir(os.path.join(path, str(most_recent_year)))
+    try:
+        months = os.listdir(os.path.join(path, str(most_recent_year)))
+    except OSError:
+        months = []
     most_recent_month = get_latest(months) or 1
     return datetime(most_recent_year, most_recent_month, 1)
 
