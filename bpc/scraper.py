@@ -26,6 +26,10 @@ def list_albums(year, month):
     else:
         for div in divs:
             retval.append({'name': div.a.text, 'url': div.a['href']})
+    invalid_chars = ['\\', '/', ':', '*', '?', '"', '<', '>', '|']
+    for album in retval:
+        for char in invalid_chars:
+            album['name'] = album['name'].replace(char, '_')
     return retval
 
 
