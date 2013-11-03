@@ -24,9 +24,11 @@ def write_caption(path, caption):
 def download_album(name, path, url):
     """Downloads a photo album if necessary"""
     if not os.path.exists(path):
+        photos = list_album_photos(url)
+        if not photos:
+            return
         log.info('Downloading: "{0}"'.format(name))
         os.makedirs(path)
-        photos = list_album_photos(url)
         i = 0
         for photo in photos:
             i += 1

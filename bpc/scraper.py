@@ -38,6 +38,9 @@ def list_album_photos(url):
 
     # Process top image, prepending album intro text to caption
     top_image_div = soup.find('div', {'class': 'bpImageTop'})
+    if not top_image_div:
+        # Not a gallery - probably a blog post.
+        return []
     entry = make_image_dict(top_image_div)
     intro_text = get_album_intro_text(soup)
     entry['caption'] = u'{0} || {1}'.format(

@@ -60,3 +60,10 @@ class TestScraper(BaseTestCase):
              'url': u'pic3.jpg'},
         ]
         self.assertEqual(expected, list_album_photos('bla'))
+
+    @patch.object(bpc.http, 'get',
+        return_value=MockedResponse(content=FIXTURES['non_gallery.html']))
+    def test_list_album_photos_non_gallery(self, mocked_get):
+        """Should return an empty list when scraping a non-gallery page"""
+        # e.g. http://www.boston.com/bigpicture/2008/10/a_quick_note_1.html
+        self.assertEqual([], list_album_photos('bla'))
