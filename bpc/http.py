@@ -3,9 +3,18 @@ import sys
 import requests
 import logbook
 
+from bpc import __version__ as VERSION
+
 
 log = logbook.Logger('bpc.http')
+
 MAX_RETRIES = 5
+
+HEADERS = {
+    'User-Agent': ('Big Picture Cataloguer {0} - '
+                   'http://github.com/kopf/bigpicture-cataloguer'.format(VERSION)),
+    'From': 'ventolin+bpc@gmail.com'
+}
 
 
 def retry_or_fail(url, retries_left, stream):

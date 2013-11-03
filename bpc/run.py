@@ -14,6 +14,7 @@ from bpc.sync import get_months
 
 log = logbook.Logger('bpc.run')
 
+
 def write_caption(path, caption):
     metadata = pyexiv2.ImageMetadata(path)
     metadata.read()
