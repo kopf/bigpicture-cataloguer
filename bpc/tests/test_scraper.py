@@ -1,6 +1,7 @@
+from BeautifulSoup import BeautifulSoup
 from mock import patch
 
-from bpc.scraper import list_albums, list_album_photos
+from bpc.scraper import list_albums, list_album_photos, clean_caption_text
 import bpc.http
 from bpc.tests.tests import FIXTURES, BaseTestCase, MockedResponse
 
@@ -67,3 +68,10 @@ class TestScraper(BaseTestCase):
         """Should return an empty list when scraping a non-gallery page"""
         # e.g. http://www.boston.com/bigpicture/2008/10/a_quick_note_1.html
         self.assertEqual([], list_album_photos('bla'))
+
+    def test_clean_caption_text(self):
+        """Should clean up caption text"""
+        caption = BeautifulSoup(u'  \xb4test \xd7\xb4\xa0&rsquo;an\xf2ther quote&rsquo; &copy;'
+                                u' \xe1 <a href="bla">company</a> (24 photos total)  ')
+        expected = u"'test x' 'another quote' Copyright a company"
+        self.assertEqual(expected, clean_caption_text(caption))

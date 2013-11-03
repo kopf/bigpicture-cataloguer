@@ -84,4 +84,10 @@ def clean_caption_text(div):
             segments.append(content.text)
     retval = u''.join(segments)
     retval = re.sub(r'\(\d\d photos total\)', '', retval)
+    replacements = {u'\xb4': u"'", u'\xd7': u'x',
+                    u'\xa0': u' ', u'&rsquo;': u"'",
+                    u'\xf2': u'o', u'\xe1': u'a',
+                    u'&copy;': u'Copyright'}
+    for orig, replacement in replacements.iteritems():
+        retval = retval.replace(orig, replacement)
     return retval.strip()
