@@ -28,7 +28,7 @@ def download_album(name, path, url):
         photos = list_album_photos(url)
         if not photos:
             return
-        log.info('Downloading: "{0}"'.format(name))
+        log.info(u'Downloading: "{0}"'.format(name))
         os.makedirs(path)
         i = 0
         for photo in photos:
@@ -41,7 +41,7 @@ def download_album(name, path, url):
             if not file_path.endswith('.gif'):
                 write_caption(file_path, photo['caption'])
     else:
-        log.info('Photo album "{0}" already downloaded, skipping...'.format(name))
+        log.info(u'Photo album "{0}" already downloaded, skipping...'.format(name))
 
 
 if __name__ == '__main__':
