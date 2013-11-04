@@ -37,7 +37,7 @@ def download_album(name, path, url):
             file_path = os.path.join(path, '{0} - {1}'.format(i, orig_filename))
             try:
                 response = http.get(photo['url'], stream=True)
-            except DownloadError:
+            except http.DownloadError:
                 continue
             with open(file_path, 'wb') as f:
                 shutil.copyfileobj(response.raw, f)
