@@ -34,6 +34,5 @@ class TestHTTPLib(BaseTestCase):
 
     def test_exit_when_retries_exceeded(self):
         """Should exit when the retries limit has been reached"""
-        with patch.object(sys, 'exit') as exit_mock:
-            http.retry_or_fail('http://localhost', retries_left=0, stream=False)
-            self.assertTrue(exit_mock.called)
+        self.assertRaises(http.DownloadError, http.retry_or_fail,
+                          'http://localhost', retries_left=0, stream=False)

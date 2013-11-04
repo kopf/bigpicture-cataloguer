@@ -17,6 +17,10 @@ HEADERS = {
 }
 
 
+class DownloadError(Exception):
+    pass
+
+
 def retry_or_fail(url, retries_left, stream):
     if retries_left > 0:
         log.info('Retrying...')
@@ -24,7 +28,7 @@ def retry_or_fail(url, retries_left, stream):
     else:
         log.critical('Max retries exceeded trying to download {0}'.format(url))
         log.critical('Aborting...')
-        sys.exit(-1)
+        raise DownloadError()
 
 
 def get(url, retries_left=MAX_RETRIES, stream=False):
