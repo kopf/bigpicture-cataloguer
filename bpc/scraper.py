@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import re
 
 from BeautifulSoup import BeautifulSoup
@@ -30,6 +31,7 @@ def list_albums(year, month):
     for album in retval:
         for char in invalid_chars:
             album['name'] = album['name'].replace(char, '_').strip('.')
+            album['name'] = album['name'].replace("’", "'")
     return retval[::-1]
 
 
