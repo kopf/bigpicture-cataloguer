@@ -12,10 +12,10 @@ class TestScraper(BaseTestCase):
     def test_list_albums_old_site(self, mocked_get):
         """Should return a dictionary when parsing old (before sep 2008) months"""
         expected = [
-            {'name': 'Cassini Nears Four-year Mark',
-                'url': 'http://www.boston.com/bigpicture/2008/05/cassini_nears_fouryear_mark.html'},
             {'name': 'Uncontacted Tribe Photographed in Brazil',
-                'url': 'http://www.boston.com/bigpicture/2008/05/uncontacted_tribe_photographed.html'}
+                'url': 'http://www.boston.com/bigpicture/2008/05/uncontacted_tribe_photographed.html'},
+            {'name': 'Cassini Nears Four-year Mark',
+                'url': 'http://www.boston.com/bigpicture/2008/05/cassini_nears_fouryear_mark.html'}
         ]
         self.assertEqual(expected, list_albums(2008, 8))
 
@@ -23,10 +23,10 @@ class TestScraper(BaseTestCase):
     def test_list_albums_new_site(self, mocked_get):
         """Should return a dictionary when parsing newer (after sep 2008) months"""
         expected = [
-            {'name': 'The Singapore Grand Prix',
-                'url': 'http://www.boston.com/bigpicture/2008/09/the_singapore_grand_prix.html'},
             {'name': 'Childhood Cancer Awareness Month',
-                'url': 'http://www.boston.com/bigpicture/2008/09/childhood_cancer_awareness_mon.html'}
+                'url': 'http://www.boston.com/bigpicture/2008/09/childhood_cancer_awareness_mon.html'},
+            {'name': 'The Singapore Grand Prix',
+                'url': 'http://www.boston.com/bigpicture/2008/09/the_singapore_grand_prix.html'}
         ]
         self.assertEqual(expected, list_albums(2008, 9))
 

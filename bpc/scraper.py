@@ -9,7 +9,7 @@ ALBUMS = 'http://www.boston.com/bigpicture/{year}/{month:02d}/'
 
 
 def list_albums(year, month):
-    """Returns a dictionary of the form {title: url} for
+    """Returns list of dictionaries representing all
     photo albums for a given month
     """
     html = http.get(ALBUMS.format(year=year, month=month)).text
@@ -30,7 +30,7 @@ def list_albums(year, month):
     for album in retval:
         for char in invalid_chars:
             album['name'] = album['name'].replace(char, '_')
-    return retval
+    return retval[::-1]
 
 
 def list_album_photos(url):
