@@ -70,7 +70,7 @@ def make_image_dict(div):
     image div
     """
     image = div.find('img')
-    if not image:
+    if not image or not image['src']:
         return {}
     caption = div.find('div', {'class': 'bpCaption'}) or ''
     return {

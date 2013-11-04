@@ -76,6 +76,13 @@ class TestScraper(BaseTestCase):
         # e.g. http://www.boston.com/bigpicture/2008/10/nachtweys_wish_awareness_of_xd.html
         self.assertEqual(1, len(list_album_photos('bla')))
 
+    @patch.object(bpc.http, 'get',
+        return_value=MockedResponse(content=FIXTURES['removed_images.html']))
+    def test_list_album_photos_removed_photos(self, mocked_get):
+        """Should return a list of photos when the album contains removed photos"""
+        # e.g. http://www.boston.com/bigpicture/2010/01/earthquake_in_haiti.html
+        self.assertEqual(41, len(list_album_photos('bla')))
+
     def test_clean_caption_text(self):
         """Should clean up caption text"""
         caption = BeautifulSoup(u'  \xb4test \xd7\xb4\xa0&rsquo;an\xf2ther quote&rsquo; &copy;'
