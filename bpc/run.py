@@ -35,7 +35,10 @@ def download_album(name, path, url):
             i += 1
             orig_filename = photo['url'].split('/')[-1]
             file_path = os.path.join(path, '{0} - {1}'.format(i, orig_filename))
-            response = http.get(photo['url'], stream=True)
+            try:
+                response = http.get(photo['url'], stream=True)
+            except DownloadError:
+                continue
             with open(file_path, 'wb') as f:
                 shutil.copyfileobj(response.raw, f)
             if not file_path.endswith('.gif'):
