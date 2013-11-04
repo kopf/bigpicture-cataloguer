@@ -27,7 +27,6 @@ def retry_or_fail(url, retries_left, stream):
         return get(url, retries_left=retries_left-1, stream=stream)
     else:
         log.critical('Max retries exceeded trying to download {0}'.format(url))
-        log.critical('Aborting...')
         raise DownloadError()
 
 
