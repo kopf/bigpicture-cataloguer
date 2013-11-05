@@ -30,8 +30,10 @@ def list_albums(year, month):
     invalid_chars = ['\\', '/', ':', '*', '?', '"', '<', '>', '|']
     for album in retval:
         for char in invalid_chars:
-            album['name'] = album['name'].replace(char, '_').strip('.')
-            album['name'] = album['name'].replace(u"\x92", "'")
+            album['name'] = album['name'].replace(char, '_')
+        album['name'] = album['name'].replace(u"\x92", "'")\
+                                     .replace(u"\u201d", "'")\
+                                     .strip('.')
     return retval[::-1]
 
 
