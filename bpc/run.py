@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import argparse
 import os
 import shutil
 import sys
@@ -7,6 +8,7 @@ import sys
 import logbook
 import pyexiv2
 
+from bpc import __version__ as VERSION
 import bpc.http as http
 from bpc.scraper import list_albums, list_album_photos
 from bpc.sync import get_months
@@ -48,7 +50,18 @@ def download_album(name, path, url):
 
 
 if __name__ == '__main__':
-    months = get_months(sys.argv[-1])
+    print 'Big Picture Cataloguer v{0}'.format(VERSION)
+    print 'Aengus Walton - http://ventolin.org'
+    print '==========================='
+    print ''
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "directory", help="The directory in which photos are to be stored")
+    args = parser.parse_args()
+    if not os.path.exists(args.directory):
+        log.info('{0} does not exist, creating...'.format(args.directory))
+        os.makedirs(args.directory)
+    months = get_months(args.directory)
     for dt in months:
         albums = list_albums(dt.year, dt.month)
         for album in albums:
